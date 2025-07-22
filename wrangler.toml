@@ -1,0 +1,9 @@
+name = "gihosting"
+main = "upload.js"
+compatibility_date = "2024-05-15"
+
+# This section configures the project to serve static assets.
+# The 'bucket' key specifies the directory containing your static files.
+# Since your files (index.html, etc.) are in the root, we set it to ".".
+[site]
+bucket = "." 
