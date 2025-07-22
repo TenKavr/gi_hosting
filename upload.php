@@ -15,9 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // GitHub 配置信息
 // !!! 请替换为您的实际信息 !!!
-$githubUser = 'user'; // 您的 GitHub 用户名
-$githubRepo = 'repository'; // 您的 GitHub 仓库名
-$githubToken = 'token'; // 您的 GitHub 个人访问令牌
+$githubUser = getenv('GITHUB_USER'); // 您的 GitHub 用户名
+$githubRepo = getenv('GITHUB_REPO'); // 您的 GitHub 仓库名
+$githubToken = getenv('GITHUB_TOKEN'); // 您的 GitHub 个人访问令牌
 $githubBranch = 'main'; // 您的仓库分支，通常是 main 或 master
 
 // 检查是否是 POST 请求
