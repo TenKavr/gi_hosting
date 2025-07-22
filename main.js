@@ -85,6 +85,16 @@ async function uploadFiles() {
     let failCount = 0;
     imageUrlDiv.innerHTML = '';
 
+    // 自动判断上传接口地址
+    let uploadApiUrl;
+    if (location.hostname.endsWith('.workers.dev')) {
+        // 生产环境，当前页面就是 Workers 域名
+        uploadApiUrl = location.origin + '/';
+    } else {
+        // 本地开发环境
+        uploadApiUrl = 'upload.php';
+    }
+
     for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
         const reader = new FileReader();
@@ -103,7 +113,7 @@ async function uploadFiles() {
         }
         base64data = base64data.split(',')[1];
         try {
-            const response = await fetch('upload.js', {
+            const response = await fetch(uploadApiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ filename: file.name, content: base64data })
