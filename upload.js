@@ -39,11 +39,25 @@ export default {
       });
     }
 
-    // 配置（请替换为你的真实信息）
-    const githubUser = '你的GitHub用户名'; // TODO: 替换为你的 GitHub 用户名
-    const githubRepo = '你的仓库名';      // TODO: 替换为你的仓库名
-    const githubToken = '你的GitHub Token'; // TODO: 替换为你的 GitHub Token
-    const githubBranch = 'main';
+    // 从环境变量中获取配置
+    // 请在 Cloudflare Workers 的设置页面 -> "变量" -> "为此 Worker 添加变量" 中配置以下环境变量:
+    // GITHUB_USER: 你的 GitHub 用户名
+    // GITHUB_REPO: 你的 GitHub 仓库名
+    // GITHUB_TOKEN: 你的 GitHub 个人访问令牌 (https://github.com/settings/tokens)
+    const { GITHUB_USER, GITHUB_REPO, GITHUB_TOKEN, GITHUB_BRANCH } = env;
+
+    if (!GITHUB_USER || !GITHUB_REPO || !GITHUB_TOKEN) {
+      return new Response(JSON.stringify({ success: false, message: '服务器配置不完整: 缺少 GITHUB_USER, GITHUB_REPO, 或 GITHUB_TOKEN 环境变量。' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      });
+    }
+    
+    // 配置
+    const githubUser = GITHUB_USER;
+    const githubRepo = GITHUB_REPO;
+    const githubToken = GITHUB_TOKEN;
+    const githubBranch = GITHUB_BRANCH || 'main'; // 如果未设置，默认为 'main'
     const pathInRepo = `images/${filename}`;
     const githubApiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/${pathInRepo}`;
 
