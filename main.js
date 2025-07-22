@@ -103,7 +103,7 @@ async function uploadFiles() {
         }
         base64data = base64data.split(',')[1];
         try {
-            const response = await fetch('/api/upload.php', {
+            const response = await fetch('upload.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ filename: file.name, content: base64data })
